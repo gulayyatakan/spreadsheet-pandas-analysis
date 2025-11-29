@@ -1,19 +1,24 @@
-# Spreadsheet Analysis with Pandas
+# Amazon Bestsellers Explorer
 
-This project explores an Amazon bestsellers dataset using Python and pandas.  
-It includes both a simple data analysis script and an interactive Streamlit app.
+Small practice project using Python, pandas, and Streamlit to explore an Amazon bestsellers dataset from a CSV file.
 
-## Features
+## What it does
 
-- Load and clean the `bestsellers.csv` dataset (remove duplicates, rename columns, convert types)
-- Filter books by genre
-- View top N books by number of reviews
-- Inspect rating distribution
-- See average rating per publication year
+- Loads and cleans `bestsellers.csv` (removes duplicates, renames columns, fixes types)
+- Lets you filter books by genre in a Streamlit sidebar
+- Shows a preview of the filtered data
+- Displays the top N books by number of reviews
+- Visualizes rating distribution and average rating per publication year
 
-## Setup
+## How to run
 
 ```bash
+# create and activate virtual environment
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# install dependencies
 pip install -r requirements.txt
+```
+# run the Streamlit app
+streamlit run app.py
