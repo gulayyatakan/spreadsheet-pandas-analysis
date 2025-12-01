@@ -1,4 +1,3 @@
-# --- Imports ---
 import streamlit as st
 import pandas as pd
 
@@ -11,14 +10,23 @@ st.write(
 
 # --- Data loading & cleaning ---
 @st.cache_data
-def load_data():
-    df = pd.read_csv("bestsellers.csv")
+def load_data(file) -> pd.DataFrame:
+    df = pd.read_csv(file)
     df.drop_duplicates(inplace=True)
     df.rename(columns={"Name": "Title", "Year": "Publication_Year"}, inplace=True)
     df["Price"] = df["Price"].astype(float)
     return df
 
-df = load_data()
+
+#--- Sidebar: file upload ---
+st.sidebar.header("Upload your CSV data")
+uploaded_file = st.sidebar.file_uploader("Choose a CSV file", type="csv")
+
+if uploaded_file is None:
+    st.warning("Please upload a CSV file to start.")
+    st.stop()
+
+df = load_data(uploaded_file)
 
 # --- Sidebar filters ---
 st.sidebar.header("Filters")
@@ -35,6 +43,16 @@ else:
 st.subheader("Dataset Preview")
 st.write(filtered_df.head())
 st.write(f"Shape: {filtered_df.shape[0]} rows and {filtered_df.shape[1]} columns")
+
+csv_data = filtered_df.to_csv(index=False).encode("utf-8")
+
+st.download_button(
+    label="Download data as CSV",
+    data=csv_data,
+    file_name="bestsellers_filtered.csv",
+    mime="text/csv",
+)
+
 
 # --- Top N books ---
 st.subheader("Top N books by number of reviews")
